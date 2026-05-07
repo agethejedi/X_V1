@@ -59,10 +59,8 @@ async function getWeather(lat, lon, location) {
 }
 
 async function getMarkets(env) {
-  if (!env.FINNHUB_API_KEY) return DEFAULT_MARKETS;
-  // Finnhub symbol coverage varies by plan. These defaults intentionally fall back safely.
-  const key = env.FINNHUB_API_KEY;
-  const symbols = [
+  if (!env.TWELVEDATA_API_KEY) return DEFAULT_MARKETS;
+  const key = env.TWELVEDATA_API_KEY;  const symbols = [
     ['DJIA', 'DOW FUT', 'YM=F'], ['NDX', 'NASDAQ FUT', 'NQ=F'], ['SPX', 'S&P FUT', 'ES=F'],
     ['CL', 'CRUDE OIL', 'CL=F'], ['GC', 'GOLD', 'GC=F'], ['NG', 'NAT GAS', 'NG=F'], ['HG', 'COPPER', 'HG=F'], ['SI', 'SILVER', 'SI=F']
   ];
