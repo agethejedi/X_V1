@@ -1,0 +1,11 @@
+name = "jarvis-morning-briefing"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-05-06"
+
+# Optional environment variables to set in Cloudflare Pages:
+# OPENAI_API_KEY - enables AI-written briefing lines
+# FINNHUB_API_KEY - enables live market quotes through Finnhub symbols
+# BRIEFING_NAME - defaults to Ron
+# BRIEFING_LOCATION_NAME - defaults to The Colony, Texas
+# BRIEFING_LAT - defaults to 33.0890
+# BRIEFING_LON - defaults to -96.8864
