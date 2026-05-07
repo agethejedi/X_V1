@@ -60,17 +60,26 @@ async function getWeather(lat, lon, location) {
 
 async function getMarkets(env) {
   if (!env.TWELVEDATA_API_KEY) return DEFAULT_MARKETS;
-  const key = env.TWELVEDATA_API_KEY;  const symbols = [
-    ['DJIA', 'DOW FUT', 'YM=F'], ['NDX', 'NASDAQ FUT', 'NQ=F'], ['SPX', 'S&P FUT', 'ES=F'],
-    ['CL', 'CRUDE OIL', 'CL=F'], ['GC', 'GOLD', 'GC=F'], ['NG', 'NAT GAS', 'NG=F'], ['HG', 'COPPER', 'HG=F'], ['SI', 'SILVER', 'SI=F']
-  ];
+  const key = env.TWELVEDATA_API_KEY;  
+  const symbols = [
+  ['DJIA', 'DOW ETF', 'DIA'],
+  ['NDX', 'NASDAQ ETF', 'QQQ'],
+  ['SPX', 'S&P ETF', 'SPY'],
+  ['CL', 'CRUDE OIL ETF', 'USO'],
+  ['GC', 'GOLD ETF', 'GLD'],
+  ['SI', 'SILVER ETF', 'SLV'],
+  ['NG', 'NAT GAS ETF', 'UNG'],
+  ['HG', 'COPPER ETF', 'CPER']
+];
   const quotes = await Promise.all(symbols.map(async ([sym, name, apiSym]) => {
-    const q = await fetch(`https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(apiSym)}&token=${key}`).then(r => r.json());
-    const val = q.c || q.pc || 0;
-    const chg = q.d || 0;
-    const pct = q.dp || 0;
-    return { sym, name, val, chg, pct };
-  }));
+    const q = await fetch(
+  `https://api.twelvedata.com/quote?symbol=${encodeURIComponent(apiSym)}&apikey=${key}`
+).then((r) => r.json());
+
+const val = Number(q.close || q.price || 0);
+const chg = Number(q.change || 0);
+const pct = Number(q.percent_change || 0);
+return { sym, name, val, chg, pct };  }));
   const usable = quotes.filter(q => q.val > 0);
   if (usable.length < 3) return DEFAULT_MARKETS;
   return {
